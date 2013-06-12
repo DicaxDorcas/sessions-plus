@@ -3,8 +3,7 @@
     "name": "sessions-plus",
     "description": "Sessions plus authentication",
     "version": "0.0.1",
-    "main": "./lib",
-    "bin": "./bin/sessions-plus.js",
+    "main": "./bin/sessions-plus.js",
     "repository": {
         "type": "git",
         "url": "git@github.com:DicaxDorcas/sessions-plus.git"
