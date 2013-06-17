@@ -4,7 +4,7 @@ var fs = require('fs');
 var sessionsFolder = './sessions/';
 // -- 
 
-if(!fs.existsSync(sessionsFolder) {
+if(!fs.existsSync(sessionsFolder)) {
     fs.mkdirSync(sessionsFolder);
 }
 
