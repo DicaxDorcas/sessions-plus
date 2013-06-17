@@ -28,7 +28,7 @@ exports.start = function (req) {
     // --
 
     // -- Makes sure the req.session object has a cookie value attached; either pre-existing or new.
-    if(cookies.uuid){
+    if(cookies.uuid && !(req.session.cookie == 'flush')){
         req.session.cookieFresh = 'false';
         req.session.cookie = cookies.uuid;
     } else {
@@ -67,8 +67,9 @@ exports.kill = function (req) {
     fs.unlink(sessionsFolder + req.session.cookie + '.json', function(err) {
         if(err) throw err;
 
-        // NOTE: marking the session cookie as undefined forces a new session cookie to be generated and assigned. 
-        req.session = {};
+        // NOTE: marking the session cookie as 'flush' forces a new session cookie to be generated and assigned. 
+        req.session.cookie = 'flush';
+        return req;
     });
     // --
 };
