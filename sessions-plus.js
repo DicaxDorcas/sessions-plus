@@ -68,7 +68,7 @@ exports.kill = function (req) {
         if(err) throw err;
 
         // NOTE: marking the session cookie as undefined forces a new session cookie to be generated and assigned. 
-        req.session.cookie = undefined;
+        req.session = {};
     });
     // --
 };
