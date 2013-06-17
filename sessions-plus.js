@@ -28,12 +28,11 @@ exports.start = function (req) {
     // --
 
     // -- Makes sure the req.session object has a cookie value attached; either pre-existing or new.
-    if(cookies.uuid && !(req.session.cookie == 'flush')){
+    if(cookies.uuid){
         req.session.cookieFresh = 'false';
         req.session.cookie = cookies.uuid;
     } else {
-        req.session.cookieFresh = 'true';
-        req.session.cookie = b();
+        req = refreshCookie(req);
     }
     // --
 
@@ -61,19 +60,26 @@ exports.end = function (req) {
 };
 
 exports.kill = function (req) {
-    // Used to delete the session file and effectively kill the user's session.
+    // Used to delete the session file and effectively kill the user's session
+    if(fs.existsSync(sessionsFolder + req.session.cookie + '.json')) {
+        fs.unlinkSync(sessionsFolder + req.session.cookie + '.json');
+    }
 
-    // -- Delete sessions json file for cookie given.
-    fs.unlink(sessionsFolder + req.session.cookie + '.json', function(err) {
-        if(err) throw err;
+    newSession = {};
+    newSession.cookie = req.session.cookie;
+    req.session = newSession;
 
-        // NOTE: marking the session cookie as 'flush' forces a new session cookie to be generated and assigned. 
-        req.session.cookie = 'flush';
-        return req;
-    });
-    // --
+    return req;
 };
 
+// --
+
+// -- Refresh cookie
+function refreshCookie(req) {
+    req.session.cookieFresh = 'true';
+    req.session.cookie = b();
+    return req;
+}
 // --
 
 // -- Function to generate a UUID (v4 standard, see: https://www.ietf.org/rfc/rfc4122.txt). Used for session cookie.

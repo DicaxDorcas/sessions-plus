@@ -31,3 +31,10 @@ And append the following to the end of your createServer function:
 
 Simple.
 
+### Killing a session
+
+To wipe the contents of a session (IE: saved variables, login details, etc) you pass the req into the kill() function, like so:
+
+    req = sessionsplus.kill(req);
+
+
