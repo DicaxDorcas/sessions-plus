@@ -4,6 +4,11 @@ var fs = require('fs');
 var sessionsFolder = './sessions/';
 // -- 
 
+if(!fs.existsSync(sessionsFolder) {
+    fs.mkdirSync(sessionsFolder);
+}
+
+
 exports.start = function (req) {
     // Used to hook the req and start a session.
 
