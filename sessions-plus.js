@@ -64,7 +64,7 @@ exports.kill = function (req) {
     // Used to delete the session file and effectively kill the user's session.
 
     // -- Delete sessions json file for cookie given.
-    fs.unlink(sessionsFolder + req.sessions.cookie + '.json', function(err) {
+    fs.unlink(sessionsFolder + req.session.cookie + '.json', function(err) {
         if(err) throw err;
 
         // NOTE: marking the session cookie as undefined forces a new session cookie to be generated and assigned. 
