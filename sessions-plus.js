@@ -4,12 +4,16 @@ var fs = require('fs');
 var sessionsFolder = './sessions/';
 // -- 
 
-if(!fs.existsSync(sessionsFolder)) {
-    fs.mkdirSync(sessionsFolder);
+// -- Checks if folder exists in project where executed.
+function initialChecks() {
+    if(!fs.existsSync(sessionsFolder)) {
+            fs.mkdirSync(sessionsFolder);
+    }
 }
-
+// --
 
 exports.start = function (req) {
+    initialChecks();
     // Used to hook the req and start a session.
 
     // -- Initialise an empty req.session object
@@ -29,7 +33,7 @@ exports.start = function (req) {
 
     // -- Makes sure the req.session object has a cookie value attached; either pre-existing or new.
     if(cookies.uuid){
-        req.session.cookieFresh = 'false';
+        req.session.cookieFresh = false;
         req.session.cookie = cookies.uuid;
     } else {
         req = refreshCookie(req);
@@ -48,6 +52,7 @@ exports.start = function (req) {
 };
 
 exports.end = function (req) {
+    initialChecks();
     // Used to save the contents of req.session to file.
 
     // -- Writes stringified contents of the req.session object to a json file.
@@ -60,6 +65,7 @@ exports.end = function (req) {
 };
 
 exports.kill = function (req) {
+    initialChecks();
     // Used to delete the session file and effectively kill the user's session
     if(fs.existsSync(sessionsFolder + req.session.cookie + '.json')) {
         fs.unlinkSync(sessionsFolder + req.session.cookie + '.json');
@@ -76,7 +82,7 @@ exports.kill = function (req) {
 
 // -- Refresh cookie
 function refreshCookie(req) {
-    req.session.cookieFresh = 'true';
+    req.session.cookieFresh = true;
     req.session.cookie = b();
     return req;
 }
