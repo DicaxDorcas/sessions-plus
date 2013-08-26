@@ -3,7 +3,7 @@
     "owner": "dicaxdorcas",
     "name": "sessions-plus",
     "description": "Sessions for node.js",
-    "version": "0.0.7c",
+    "version": "0.0.7d",
     "main": "./sessions-plus.js",
     "repository": {
         "type": "git",

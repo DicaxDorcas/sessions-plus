@@ -32,7 +32,7 @@ exports.start = function (req) {
     // --
 
     // -- Makes sure the req.session object has a cookie value attached; either pre-existing or new.
-    if(cookies.uuid){
+    if(typeof cookies.uuid !== 'undefined'){
         req.session.cookieFresh = false;
         req.session.cookie = cookies.uuid;
     } else {
@@ -41,7 +41,7 @@ exports.start = function (req) {
     // --
 
     // -- Loads pre-existing session data if it exists.
-    if(fs.existsSync(sessionsFolder + req.session.cookie + '.json')) {
+    if(typeof req.session.cookie !== 'undefined' && fs.existsSync(sessionsFolder + req.session.cookie + '.json')) {
         req.session = JSON.parse(fs.readFileSync(sessionsFolder + req.session.cookie + '.json', encoding='utf8'));
     }
     // --
