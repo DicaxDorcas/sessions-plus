@@ -32,7 +32,7 @@ exports.start = function (req) {
     // --
 
     // -- Makes sure the req.session object has a cookie value attached; either pre-existing or new.
-    if(typeof cookies.uuid !== 'undefined'){
+    if(cookies.uuid){
         req.session.cookieFresh = false;
         req.session.cookie = cookies.uuid;
     } else {
